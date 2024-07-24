@@ -37,7 +37,7 @@ public class BinaryTreeLevelOrderTraversal2 {
     // ex) level = 2, levels size = 2 (레벨 1 노드가 포함되어 있음)
     // bottom up으로 저장하기 위해 0번 인덱스에 저장
     if (levels.size() == level) {
-      levels.add(0, new ArrayList<>());
+      levels.add(new ArrayList<>());
     }
 
     // 리스트 0번째 인덱스에 추가
