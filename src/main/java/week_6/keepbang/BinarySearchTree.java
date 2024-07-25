@@ -115,7 +115,7 @@ public class BinarySearchTree {
         // 노드의 값을 successor의 값으로 대체시켜준 뒤
         // successor의 오른쪽 자식을 위로 올립니다.
         node.val = succ.val;
-        // successor의 왼쪽은 null이기때문에 오른쪽 값만 화인 하면됨
+        // successor의 왼쪽은 null이기때문에 오른쪽 값만 확인 하면됨
         if (succ.right != null) {
           BinaryTree right = succ.right;
           succ.val = right.val;
