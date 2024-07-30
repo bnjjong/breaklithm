@@ -3,10 +3,12 @@ package week_7.jshan;
 public class MaxHeap {
   private int[] heap;
   private int size;
+  private int capacity;
 
   public MaxHeap(int[] heap) {
     this.heap = heap;
     this.size = heap.length;
+    this.capacity = heap.length;
     init();
   }
 
@@ -59,6 +61,42 @@ public class MaxHeap {
       maxHeapify(largest);
     }
   }
+  private void swap(int i, int j) {
+    int temp = heap[i];
+    heap[i] = heap[j];
+    heap[j] = temp;
+  }
+
+  private void increaseCapacity() {
+    this.capacity = this.capacity * 2;
+    int[] newHeap = new int[capacity];
+    // 배열 복사
+    System.arraycopy(heap, 0, newHeap, 0, size);
+    heap = newHeap;
+  }
+
+  private void heapifyUp(int index) {
+    int parentIndex = (index - 1) / 2;
+    if (index > 0 && heap[index] > heap[parentIndex]) {
+      swap(index, parentIndex);
+      heapifyUp(parentIndex);
+    }
+  }
+
+  public void insert(int n) {
+    if (size==capacity) {
+      increaseCapacity();
+    }
+    heap[size] = n;
+    size++;
+    heapifyUp(size-1);
+  }
+
+  public void delete() {
+    swap(0, size);
+    maxHeapify(0);
+    size--;
+  }
 
   public void printHeap() {
     for (int i = 0; i < size; i++) {
@@ -67,15 +105,20 @@ public class MaxHeap {
     System.out.println();
   }
 
-  private void swap(int i, int j) {
-    int temp = heap[i];
-    heap[i] = heap[j];
-    heap[j] = temp;
-  }
+
+
+
 
   public static void main(String[] args){
     int[] array = {3, 5, 1, 10, 2, 7, 6};
     MaxHeap maxHeap = new MaxHeap(array);
     maxHeap.printHeap();
+    System.out.println("노드 추가");
+    maxHeap.insert(9);
+    maxHeap.printHeap();
+    System.out.println("루트 노드 삭제");
+    maxHeap.delete();
+    maxHeap.printHeap();
+
   }
 }
