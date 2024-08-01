@@ -4,6 +4,7 @@ public class MaxHeap {
   private int[] heap;
   private int size;
   private int capacity;
+  // true 일경우 max, false 일 경우 min
   private boolean isMaxHeap;
 
   public MaxHeap(int[] heap) {
@@ -25,11 +26,11 @@ public class MaxHeap {
   private void init() {
     // 중간 부터 시작하여 root 까지 maxHeapify 한다.
     for (int i= size /2-1; i>=0; i--) {
-      maxHeapify(i);
+      heapify(i);
     }
   }
 
-  private void maxHeapify(int i) {
+  private void heapify(int i) {
     int compareValue = i;
     int left = 2 * i + 1; // 좌변 배열 위치
     int right = 2 * i + 2; // 우변 배열 위치
@@ -80,7 +81,7 @@ public class MaxHeap {
 //     10       8
 //    /  \    /  \
 //   9    6  5    7
-      maxHeapify(compareValue);
+      heapify(compareValue);
     }
   }
   private void swap(int i, int j) {
@@ -118,8 +119,9 @@ public class MaxHeap {
     swap(0, size-1);
     // 삭제
     heap[size-1] = 0;
+    // 사이즈를 먼저 줄이고 maxHepify
     size--;
-    maxHeapify(0);
+    heapify(0);
 
   }
 
