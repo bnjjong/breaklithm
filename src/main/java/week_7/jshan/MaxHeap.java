@@ -4,9 +4,19 @@ public class MaxHeap {
   private int[] heap;
   private int size;
   private int capacity;
+  private boolean isMaxHeap;
 
   public MaxHeap(int[] heap) {
     this.heap = heap;
+    this.size = heap.length;
+    this.capacity = heap.length;
+    this.isMaxHeap = true;
+    init();
+  }
+
+  public MaxHeap(int[] heap, boolean isMaxHeap) {
+    this.heap = heap;
+    this.isMaxHeap = isMaxHeap;
     this.size = heap.length;
     this.capacity = heap.length;
     init();
@@ -20,24 +30,36 @@ public class MaxHeap {
   }
 
   private void maxHeapify(int i) {
-    int largest = i;
+    int compareValue = i;
     int left = 2 * i + 1; // 좌변 배열 위치
     int right = 2 * i + 2; // 우변 배열 위치
 
     // 좌측과 비교
     // 사이즈와 비교를 우선 해줘야 outOfIndex를 피할 수 있음.
-    if (left < size && heap[left] > heap[largest]) {
-      largest = left;
+    if (isMaxHeap) {
+      if (left < size && heap[left] > heap[compareValue]) {
+        compareValue = left;
+      }
+
+      // 우측과 비교
+      if (right < size && heap[right] > heap[compareValue]) {
+        compareValue = right;
+      }
+    } else {
+      if (left < size && heap[left] < heap[compareValue]) {
+        compareValue = left;
+      }
+
+      // 우측과 비교
+      if (right < size && heap[right] < heap[compareValue]) {
+        compareValue = right;
+      }
     }
 
-    // 우측과 비교
-    if (right < size && heap[right] > heap[largest]) {
-      largest = right;
-    }
 
     // 값이 변경 되었다면 swap 한다.
-    if (largest != i) {
-      swap(i, largest);
+    if (compareValue != i) {
+      swap(i, compareValue);
       // 값이 변경된 위치에서 다시 maxHeapify 해줌.
       // 6, 12, 8 중에서 maxHeapify 는 12가 됨
 //         6
@@ -58,7 +80,7 @@ public class MaxHeap {
 //     10       8
 //    /  \    /  \
 //   9    6  5    7
-      maxHeapify(largest);
+      maxHeapify(compareValue);
     }
   }
   private void swap(int i, int j) {
@@ -93,9 +115,12 @@ public class MaxHeap {
   }
 
   public void delete() {
-    swap(0, size);
-    maxHeapify(0);
+    swap(0, size-1);
+    // 삭제
+    heap[size-1] = 0;
     size--;
+    maxHeapify(0);
+
   }
 
   public void printHeap() {
