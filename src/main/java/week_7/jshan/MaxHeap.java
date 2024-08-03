@@ -100,10 +100,18 @@ public class MaxHeap {
 
   private void heapifyUp(int index) {
     int parentIndex = (index - 1) / 2;
-    if (index > 0 && heap[index] > heap[parentIndex]) {
-      swap(index, parentIndex);
-      heapifyUp(parentIndex);
+    if (isMaxHeap) {
+      if (index > 0 && heap[index] > heap[parentIndex]) {
+        swap(index, parentIndex);
+        heapifyUp(parentIndex);
+      }
+    } else {
+      if (index > 0 && heap[index] < heap[parentIndex]) {
+        swap(index, parentIndex);
+        heapifyUp(parentIndex);
+      }
     }
+
   }
 
   public void insert(int n) {
